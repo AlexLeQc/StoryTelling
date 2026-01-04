@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ProtectedRoute from './utils/ProtectedRoute';
-import { isAuthenticated, getCurrentUser } from './services/auth';
+import { isAuthenticated } from './services/auth';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Homepage from './pages/Homepage';
@@ -12,18 +12,10 @@ import './App.css';
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const initAuth = async () => {
-      if (isAuthenticated()) {
-        try {
-          const data = await getCurrentUser();
-          setUser(data.user);
-        } catch (error) {
-          console.error('Failed to get user:', error);
-        }
-      }
+      // Check if user is authenticated (no need to fetch user data for now)
       setLoading(false);
     };
     initAuth();

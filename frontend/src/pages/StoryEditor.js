@@ -21,6 +21,22 @@ function StoryEditor() {
   const [nextPageId, setNextPageId] = useState(1);
 
   useEffect(() => {
+    const fetchStory = async () => {
+      try {
+        const data = await getStory(id);
+        setTitle(data.title);
+        setDescription(data.description || '');
+        setIsPublic(data.isPublic || false);
+        setStoryData(data.storyData);
+        const maxId = Math.max(...Object.keys(data.storyData).map(Number), 0);
+        setNextPageId(maxId + 1);
+      } catch (err) {
+        setError('Failed to load story');
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (id) {
       fetchStory();
     } else {
@@ -36,22 +52,6 @@ function StoryEditor() {
       setLoading(false);
     }
   }, [id]);
-
-  const fetchStory = async () => {
-    try {
-      const data = await getStory(id);
-      setTitle(data.title);
-      setDescription(data.description || '');
-      setIsPublic(data.isPublic || false);
-      setStoryData(data.storyData);
-      const maxId = Math.max(...Object.keys(data.storyData).map(Number), 0);
-      setNextPageId(maxId + 1);
-    } catch (err) {
-      setError('Failed to load story');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handlePageChange = (pageId, newPageData) => {
     setStoryData({
