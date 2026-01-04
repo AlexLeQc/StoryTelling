@@ -13,7 +13,7 @@ export const uploadImage = async (file) => {
 };
 
 export const getImageUrl = (imageId) => {
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+  const API_URL = api.defaults.baseURL;
   if (imageId.startsWith('http')) {
     return imageId;
   }
