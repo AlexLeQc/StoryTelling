@@ -9,6 +9,7 @@ function StoryViewer() {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [imageLoading, setImageLoading] = useState(false);
 
   useEffect(() => {
     const fetchStory = async () => {
@@ -30,6 +31,15 @@ function StoryViewer() {
       fetchStory();
     }
   }, [shareId]);
+
+  useEffect(() => {
+    const scene = story?.storyData[currentStep];
+    if (scene?.background) {
+      setImageLoading(true);
+    } else {
+      setImageLoading(false);
+    }
+  }, [currentStep, story]);
 
   if (loading) {
     return <div className="story-viewer-loading">Loading story...</div>;
@@ -54,6 +64,7 @@ function StoryViewer() {
       <div className={`story-viewer-main ${scene.background ? 'has-image' : 'no-image'}`}>
         {scene.background && (
           <div className="story-viewer-image-container">
+            {imageLoading && <div className="image-loading">Loading image...</div>}
             <img
               src={scene.background.startsWith('http') || scene.background.startsWith('/api/images/')
                 ? (scene.background.startsWith('/api/images/')
@@ -62,22 +73,27 @@ function StoryViewer() {
                 : `${API_URL}/api/images/${scene.background}`}
               alt="Story scene"
               className="story-viewer-image"
+              onLoad={() => setImageLoading(false)}
+              onError={() => setImageLoading(false)}
             />
           </div>
         )}
         <div className="story-viewer-scrollable-content">
           <div className="story-viewer-content">
             <div className="story-viewer-text">{scene.text}</div>
-            <div className="story-viewer-choices">
-              {scene.choices.map((choice, index) => (
-                <button
-                  key={index}
-                  className="story-viewer-choice"
-                  onClick={() => setCurrentStep(choice.next)}
-                >
-                  {choice.text}
-                </button>
-              ))}
+              <div className="story-viewer-choices">
+                {scene.choices.map((choice, index) => (
+                  <button
+                    key={index}
+                    className="story-viewer-choice"
+                    onClick={() => {
+                      setCurrentStep(choice.next);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                  >
+                    {choice.text}
+                  </button>
+                ))}
             </div>
           </div>
         </div>
