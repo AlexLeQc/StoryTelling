@@ -51,7 +51,7 @@ function StoryViewer() {
       <div className="story-viewer-header">
         <h1 className="story-viewer-title">{story.title}</h1>
       </div>
-      <div className="story-viewer-main">
+      <div className={`story-viewer-main ${scene.background ? 'has-image' : 'no-image'}`}>
         {scene.background && (
           <div className="story-viewer-image-container">
             <img

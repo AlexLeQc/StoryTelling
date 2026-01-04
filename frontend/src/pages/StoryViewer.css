@@ -43,7 +43,6 @@
 }
 
 .story-viewer-scrollable-content {
-  overflow-y: auto;
   max-height: 100%;
 }
 
@@ -57,30 +56,40 @@
 
 /* Desktop layout - image à gauche, contenu à droite */
 @media (min-width: 768px) {
-  .story-viewer-main {
+  .story-viewer-main.has-image {
     grid-template-columns: 1fr 1fr;
     max-width: 1200px;
     margin: 0 auto;
   }
 
-  .story-viewer-image-container {
+  .story-viewer-main.has-image .story-viewer-image-container {
     justify-content: flex-start;
-    padding: 20px;
   }
 
-  .story-viewer-image {
+  .story-viewer-main.has-image .story-viewer-image {
     max-height: 500px;
     width: 100%;
   }
 
-  .story-viewer-scrollable-content {
+  .story-viewer-main.has-image .story-viewer-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Quand il n'y a pas d'image, le contenu prend toute la largeur */
+  .story-viewer-main.no-image {
+    grid-template-columns: 1fr;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .story-viewer-main.no-image .story-viewer-scrollable-content {
     padding: 20px;
   }
 
-  .story-viewer-content {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+  .story-viewer-main.no-image .story-viewer-content {
+    height: fit-content;
+    max-width: none;
   }
 }
 

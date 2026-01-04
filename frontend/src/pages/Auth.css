@@ -118,3 +118,51 @@
   text-align: center;
 }
 
+.info-message {
+  background: #e6f7ff;
+  border: 1px solid #91d5ff;
+  color: #1890ff;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.info-message p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.auth-actions {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.auth-link-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #667eea;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+
+.auth-link-button:hover {
+  background: #5568d3;
+  text-decoration: none;
+  color: white;
+}
+
+.auth-info {
+  text-align: center;
+  margin-top: 20px;
+  color: #666;
+  font-size: 14px;
+}
+
+.auth-info p {
+  margin: 0;
+}
+

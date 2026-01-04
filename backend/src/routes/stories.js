@@ -185,6 +185,7 @@ router.post('/:id/duplicate', auth, async (req, res) => {
       title: `${originalStory.title} (Copy)`,
       description: originalStory.description,
       storyData: originalStory.storyData,
+      shareId: crypto.randomBytes(16).toString('hex'),
       isPublic: false,
     });
 
