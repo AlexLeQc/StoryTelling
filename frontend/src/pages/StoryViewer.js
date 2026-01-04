@@ -45,33 +45,41 @@ function StoryViewer() {
   }
 
   const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
-  let backgroundStyle = {};
-  if (scene.background) {
-    if (scene.background.startsWith('http') || scene.background.startsWith('/api/images/')) {
-      const imageUrl = scene.background.startsWith('/api/images/') 
-        ? `${API_URL}${scene.background}`
-        : scene.background;
-      backgroundStyle = { backgroundImage: `url(${imageUrl})` };
-    } else {
-      backgroundStyle = { backgroundImage: `url(${API_URL}/api/images/${scene.background})` };
-    }
-  }
 
   return (
-    <div className="story-viewer" style={backgroundStyle}>
-      <div className="story-viewer-content">
+    <div className="story-viewer">
+      <div className="story-viewer-header">
         <h1 className="story-viewer-title">{story.title}</h1>
-        <div className="story-viewer-text">{scene.text}</div>
-        <div className="story-viewer-choices">
-          {scene.choices.map((choice, index) => (
-            <button
-              key={index}
-              className="story-viewer-choice"
-              onClick={() => setCurrentStep(choice.next)}
-            >
-              {choice.text}
-            </button>
-          ))}
+      </div>
+      <div className="story-viewer-main">
+        {scene.background && (
+          <div className="story-viewer-image-container">
+            <img
+              src={scene.background.startsWith('http') || scene.background.startsWith('/api/images/')
+                ? (scene.background.startsWith('/api/images/')
+                  ? `${API_URL}${scene.background}`
+                  : scene.background)
+                : `${API_URL}/api/images/${scene.background}`}
+              alt="Story scene"
+              className="story-viewer-image"
+            />
+          </div>
+        )}
+        <div className="story-viewer-scrollable-content">
+          <div className="story-viewer-content">
+            <div className="story-viewer-text">{scene.text}</div>
+            <div className="story-viewer-choices">
+              {scene.choices.map((choice, index) => (
+                <button
+                  key={index}
+                  className="story-viewer-choice"
+                  onClick={() => setCurrentStep(choice.next)}
+                >
+                  {choice.text}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
