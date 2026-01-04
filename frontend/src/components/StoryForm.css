@@ -1,0 +1,249 @@
+.story-form {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.story-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.story-form-header h3 {
+  margin: 0;
+  color: #333;
+}
+
+.btn-delete-page {
+  padding: 8px 16px;
+  background: #f56565;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-delete-page:hover {
+  background: #e53e3e;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: 500;
+}
+
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: inherit;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.form-group textarea:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.btn-add-background {
+  padding: 10px 20px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-add-background:hover {
+  background: #5568d3;
+}
+
+.background-preview {
+  margin-top: 10px;
+}
+
+.background-preview img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.background-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.background-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.background-actions button:first-child {
+  background: #667eea;
+  color: white;
+}
+
+.background-actions button:first-child:hover {
+  background: #5568d3;
+}
+
+.background-actions button:last-child {
+  background: #f56565;
+  color: white;
+}
+
+.background-actions button:last-child:hover {
+  background: #e53e3e;
+}
+
+.choice-item {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.choice-item:hover {
+  border-color: #667eea;
+  background: #f0f2ff;
+}
+
+.choice-input-group {
+  margin-bottom: 10px;
+}
+
+.choice-input-group:last-child {
+  margin-bottom: 0;
+}
+
+.choice-label {
+  display: block;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.choice-text {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.choice-text:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.choice-next {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 16px;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.choice-next:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.btn-delete-choice {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 8px;
+  background: #fed7d7;
+  color: #e53e3e;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-delete-choice:hover {
+  background: #feb2b2;
+  transform: scale(1.1);
+}
+
+.btn-add-choice {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #48bb78, #38a169);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(72, 187, 120, 0.2);
+}
+
+.btn-add-choice:hover {
+  background: linear-gradient(135deg, #38a169, #2f855a);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(72, 187, 120, 0.3);
+}
+
+.choice-actions {
+  margin-top: 15px;
+}
+
+.choice-help {
+  display: block;
+  margin-top: 10px;
+  color: #718096;
+  font-style: italic;
+  font-size: 14px;
+}
+
+.no-choices {
+  text-align: center;
+  color: #a0aec0;
+  font-style: italic;
+  padding: 20px;
+  background: #f7fafc;
+  border-radius: 8px;
+  border: 2px dashed #e2e8f0;
+  margin: 0;
+}
+

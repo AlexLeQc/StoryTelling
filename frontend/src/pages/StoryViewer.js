@@ -1,0 +1,82 @@
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { getPublicStory } from '../services/stories';
+import './StoryViewer.css';
+
+function StoryViewer() {
+  const { shareId } = useParams();
+  const [story, setStory] = useState(null);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchStory = async () => {
+      try {
+        const data = await getPublicStory(shareId);
+        setStory(data);
+        const firstStep = Object.keys(data.storyData)[0];
+        if (firstStep) {
+          setCurrentStep(parseInt(firstStep));
+        }
+      } catch (err) {
+        setError(err.response?.data?.message || 'Story not found');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (shareId) {
+      fetchStory();
+    }
+  }, [shareId]);
+
+  if (loading) {
+    return <div className="story-viewer-loading">Loading story...</div>;
+  }
+
+  if (error || !story) {
+    return <div className="story-viewer-error">{error || 'Story not found'}</div>;
+  }
+
+  const scene = story.storyData[currentStep];
+  if (!scene) {
+    return <div className="story-viewer-error">Invalid story step</div>;
+  }
+
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+  let backgroundStyle = {};
+  if (scene.background) {
+    if (scene.background.startsWith('http') || scene.background.startsWith('/api/images/')) {
+      const imageUrl = scene.background.startsWith('/api/images/') 
+        ? `${API_URL}${scene.background}`
+        : scene.background;
+      backgroundStyle = { backgroundImage: `url(${imageUrl})` };
+    } else {
+      backgroundStyle = { backgroundImage: `url(${API_URL}/api/images/${scene.background})` };
+    }
+  }
+
+  return (
+    <div className="story-viewer" style={backgroundStyle}>
+      <div className="story-viewer-content">
+        <h1 className="story-viewer-title">{story.title}</h1>
+        <div className="story-viewer-text">{scene.text}</div>
+        <div className="story-viewer-choices">
+          {scene.choices.map((choice, index) => (
+            <button
+              key={index}
+              className="story-viewer-choice"
+              onClick={() => setCurrentStep(choice.next)}
+            >
+              {choice.text}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default StoryViewer;
+

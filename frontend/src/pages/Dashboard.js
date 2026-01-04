@@ -1,0 +1,139 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getStories, deleteStory, duplicateStory } from '../services/stories';
+import { logout, getUser } from '../services/auth';
+import './Dashboard.css';
+
+function Dashboard() {
+  const [stories, setStories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const user = getUser();
+
+  useEffect(() => {
+    fetchStories();
+  }, []);
+
+  const fetchStories = async () => {
+    try {
+      const data = await getStories();
+      setStories(data.stories || []);
+    } catch (err) {
+      setError('Failed to load stories');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCreateNew = () => {
+    navigate('/editor');
+  };
+
+  const handleEdit = (id) => {
+    navigate(`/editor/${id}`);
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this story?')) {
+      try {
+        await deleteStory(id);
+        fetchStories();
+      } catch (err) {
+        setError('Failed to delete story');
+      }
+    }
+  };
+
+  const handleDuplicate = async (id) => {
+    try {
+      await duplicateStory(id);
+      fetchStories();
+    } catch (err) {
+      setError('Failed to duplicate story');
+    }
+  };
+
+  const handleShare = async (shareId) => {
+    const shareUrl = `${window.location.origin}/story/${shareId}`;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      alert('Share link copied to clipboard!');
+    } catch (err) {
+      const textArea = document.createElement('textarea');
+      textArea.value = shareUrl;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      alert('Share link copied to clipboard!');
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+  if (loading) {
+    return <div className="dashboard-loading">Loading...</div>;
+  }
+
+  return (
+    <div className="dashboard">
+      <header className="dashboard-header">
+        <h1>My Stories</h1>
+        <div className="dashboard-header-actions">
+          <span className="dashboard-username">Welcome, {user?.username || 'User'}</span>
+          <button onClick={handleCreateNew} className="btn-primary">
+            Create New Story
+          </button>
+          <button onClick={handleLogout} className="btn-secondary">
+            Logout
+          </button>
+        </div>
+      </header>
+
+      {error && <div className="dashboard-error">{error}</div>}
+
+      {stories.length === 0 ? (
+        <div className="dashboard-empty">
+          <p>You haven't created any stories yet.</p>
+          <button onClick={handleCreateNew} className="btn-primary">
+            Create Your First Story
+          </button>
+        </div>
+      ) : (
+        <div className="dashboard-stories">
+          {stories.map((story) => (
+            <div key={story.shareId} className="story-card">
+              <h3>{story.title}</h3>
+              <p className="story-description">{story.description || 'No description'}</p>
+              <div className="story-meta">
+                <span>Created: {new Date(story.createdAt).toLocaleDateString()}</span>
+                <span>Updated: {new Date(story.updatedAt).toLocaleDateString()}</span>
+              </div>
+              <div className="story-actions">
+                <button onClick={() => handleEdit(story._id)} className="btn-edit">
+                  Edit
+                </button>
+                <button onClick={() => handleShare(story.shareId)} className="btn-share">
+                  Share
+                </button>
+                <button onClick={() => handleDuplicate(story._id)} className="btn-duplicate">
+                  Duplicate
+                </button>
+                <button onClick={() => handleDelete(story._id)} className="btn-delete">
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default Dashboard;
+
