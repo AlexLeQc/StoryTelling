@@ -13,7 +13,7 @@ export const uploadImage = async (file) => {
 };
 
 export const getImageUrl = (imageId) => {
-  const API_URL = api.defaults.baseURL;
+  const API_URL = process.env.REACT_APP_API_URL || 'https://storytelling-mi4r.onrender.com';
   if (imageId.startsWith('http')) {
     return imageId;
   }
