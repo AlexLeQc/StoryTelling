@@ -4,6 +4,7 @@ import ProtectedRoute from './utils/ProtectedRoute';
 import { isAuthenticated, getCurrentUser } from './services/auth';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Homepage from './pages/Homepage';
 import Dashboard from './pages/Dashboard';
 import StoryEditor from './pages/StoryEditor';
 import StoryViewer from './pages/StoryViewer';
@@ -29,8 +30,8 @@ function App() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
-  }
+    return <div className="loading-spinner"></div>;
+}
 
   return (
     <Router>
@@ -46,14 +47,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/editor"
-          element={
-            <ProtectedRoute>
-              <StoryEditor />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/editor" element={<StoryEditor />} />
         <Route
           path="/editor/:id"
           element={
@@ -62,7 +56,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/" element={<Navigate to={isAuthenticated() ? "/dashboard" : "/login"} />} />
+        <Route path="/" element={<Homepage />} />
       </Routes>
     </Router>
   );

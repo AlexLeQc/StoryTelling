@@ -10,6 +10,11 @@ export const getStory = async (id) => {
   return response.data;
 };
 
+export const getPublicStories = async () => {
+  const response = await api.get('/api/stories/public');
+  return response.data;
+};
+
 export const getPublicStory = async (shareId) => {
   const response = await api.get(`/api/stories/public/${shareId}`);
   return response.data;

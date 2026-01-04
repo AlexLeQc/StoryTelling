@@ -75,14 +75,23 @@ function Dashboard() {
     window.location.href = '/login';
   };
 
+  const handleTitleClick = () => {
+    navigate('/');
+  };
+
   if (loading) {
-    return <div className="dashboard-loading">Loading...</div>;
+    return (
+      <div className="dashboard-loading">
+        <div className="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    );
   }
 
   return (
     <div className="dashboard">
       <header className="dashboard-header">
-        <h1>My Stories</h1>
+        <h1 onClick={handleTitleClick} style={{ cursor: 'pointer' }}>My Stories</h1>
         <div className="dashboard-header-actions">
           <span className="dashboard-username">Welcome, {user?.username || 'User'}</span>
           <button onClick={handleCreateNew} className="btn-primary">

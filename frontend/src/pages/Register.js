@@ -44,11 +44,10 @@ function Register() {
         <div className="info-message">
           <p>🔒 User registration is currently disabled.</p>
           <p>This application is in admin-only mode for story creation.</p>
-          <p>Please contact the administrator if you need access.</p>
         </div>
         <div className="auth-actions">
           <Link to="/login" className="auth-link-button">
-            ← Back to Login
+            Back to Login
           </Link>
         </div>
       </div>

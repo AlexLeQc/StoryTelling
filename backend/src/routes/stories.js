@@ -6,6 +6,19 @@ const auth = require('../middleware/auth');
 
 const router = express.Router();
 
+router.get('/public', async (req, res) => {
+  try {
+    const stories = await Story.find({ isPublic: true })
+      .sort({ createdAt: -1 })
+      .select('_id title description shareId createdAt storyData');
+    
+    res.json({ stories });
+  } catch (error) {
+    console.error('Error fetching public stories:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 router.get('/public/:shareId', async (req, res) => {
   try {
     const story = await Story.findOne({ shareId: req.params.shareId });

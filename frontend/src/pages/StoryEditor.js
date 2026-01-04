@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getStory, createStory, updateStory } from '../services/stories';
+import { isAuthenticated } from '../services/auth';
 import StoryForm from '../components/StoryForm';
 import './StoryEditor.css';
 
@@ -13,6 +14,7 @@ function StoryEditor() {
   const [viewMode, setViewMode] = useState('visual');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [isPublic, setIsPublic] = useState(false);
   const [storyData, setStoryData] = useState({});
   const [showJsonImport, setShowJsonImport] = useState(false);
   const [jsonImportText, setJsonImportText] = useState('');
@@ -40,6 +42,7 @@ function StoryEditor() {
       const data = await getStory(id);
       setTitle(data.title);
       setDescription(data.description || '');
+      setIsPublic(data.isPublic || false);
       setStoryData(data.storyData);
       const maxId = Math.max(...Object.keys(data.storyData).map(Number), 0);
       setNextPageId(maxId + 1);
@@ -87,6 +90,11 @@ function StoryEditor() {
   };
 
   const handleSave = async () => {
+    if (!isAuthenticated()) {
+      navigate('/login');
+      return;
+    }
+
     if (!title.trim()) {
       setError('Title is required');
       return;
@@ -109,6 +117,7 @@ function StoryEditor() {
         title,
         description,
         storyData,
+        isPublic,
       };
 
       if (id) {
@@ -118,7 +127,11 @@ function StoryEditor() {
         navigate(`/editor/${result.id}`);
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to save story');
+      if (err.response?.status === 401) {
+        navigate('/login');
+      } else {
+        setError(err.response?.data?.message || 'Failed to save story');
+      }
     } finally {
       setSaving(false);
     }
@@ -176,7 +189,12 @@ function StoryEditor() {
   };
 
   if (loading) {
-    return <div className="story-editor-loading">Loading...</div>;
+    return (
+      <div className="story-editor-loading">
+        <div className="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    );
   }
 
   const pageIds = Object.keys(storyData).map(Number).sort((a, b) => a - b);
@@ -184,8 +202,8 @@ function StoryEditor() {
   return (
     <div className="story-editor">
       <header className="story-editor-header">
-        <button onClick={() => navigate('/dashboard')} className="btn-back">
-          ← Back to Dashboard
+        <button onClick={() => navigate(isAuthenticated() ? '/dashboard' : '/')} className="btn-back">
+          {isAuthenticated() ? 'Back to Dashboard' : 'Back to Home'}
         </button>
         <h1>{id ? 'Edit Story' : 'Create New Story'}</h1>
         <div className="story-editor-actions">
@@ -199,7 +217,7 @@ function StoryEditor() {
             onClick={() => setShowJsonImport(true)}
             className="btn-import-json"
           >
-            📄 Import JSON
+            Import JSON
           </button>
           <button onClick={handleSave} disabled={saving} className="btn-save">
             {saving ? 'Saving...' : 'Save'}
@@ -229,6 +247,18 @@ function StoryEditor() {
             placeholder="Enter story description (optional)"
             rows={2}
           />
+        </div>
+
+        <div className="form-group">
+          <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+            <input
+              type="checkbox"
+              checked={isPublic}
+              onChange={(e) => setIsPublic(e.target.checked)}
+              style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+            />
+            <span>Make this story public</span>
+          </label>
         </div>
 
         {viewMode === 'visual' ? (
