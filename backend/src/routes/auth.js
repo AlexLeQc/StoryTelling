@@ -66,7 +66,7 @@ router.post('/register', registerLimiter, [
 });
 
 router.post('/login', loginLimiter, [
-  body('email').isEmail().normalizeEmail(),
+  body('email').exists().trim(),
   body('password').exists(),
 ], async (req, res) => {
   try {
@@ -77,7 +77,14 @@ router.post('/login', loginLimiter, [
 
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    // Allow login with email or username
+    const user = await User.findOne({
+      $or: [
+        { email: email },
+        { username: email } // email field now accepts both email and username
+      ]
+    });
+
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }

@@ -72,7 +72,7 @@ function Dashboard() {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    window.location.href = '/login';
   };
 
   if (loading) {
@@ -86,7 +86,7 @@ function Dashboard() {
         <div className="dashboard-header-actions">
           <span className="dashboard-username">Welcome, {user?.username || 'User'}</span>
           <button onClick={handleCreateNew} className="btn-primary">
-            Create New Story
+            New Story
           </button>
           <button onClick={handleLogout} className="btn-secondary">
             Logout

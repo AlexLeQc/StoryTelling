@@ -4,17 +4,16 @@
   padding: 20px;
 }
 
+/* Header - Mobile First */
 .story-editor-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 16px;
   margin-bottom: 20px;
-  flex-wrap: wrap;
-  gap: 15px;
   position: sticky;
   top: 0;
   background: white;
-  padding: 15px 0;
+  padding: 16px 16px;
   z-index: 100;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   border-radius: 0 0 10px 10px;
@@ -23,57 +22,106 @@
 .story-editor-header h1 {
   margin: 0;
   color: #333;
+  font-size: 1.5rem;
 }
 
 .story-editor-actions {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
 }
 
 .btn-back {
-  padding: 10px 20px;
-  background: #ccc;
-  color: #333;
-  border: none;
-  border-radius: 5px;
+  padding: 12px 20px;
+  background: #f8f9fa;
+  color: #495057;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: center;
 }
 
 .btn-back:hover {
-  background: #bbb;
+  background: #e9ecef;
+  transform: translateY(-1px);
 }
 
 .btn-toggle-view,
 .btn-save {
-  padding: 10px 20px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: center;
 }
 
 .btn-toggle-view {
   background: #ed8936;
   color: white;
+  box-shadow: 0 2px 4px rgba(237, 137, 54, 0.2);
 }
 
 .btn-toggle-view:hover {
   background: #dd6b20;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(237, 137, 54, 0.3);
 }
 
 .btn-save {
   background: #48bb78;
   color: white;
+  box-shadow: 0 2px 4px rgba(72, 187, 120, 0.2);
 }
 
 .btn-save:hover {
   background: #38a169;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(72, 187, 120, 0.3);
 }
 
 .btn-save:disabled {
   background: #ccc;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+@media (min-width: 768px) {
+  .story-editor-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 16px;
+  }
+
+  .story-editor-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .story-editor-actions {
+    flex-direction: row;
+    width: auto;
+    gap: 12px;
+  }
+
+  .btn-back {
+    width: auto;
+  }
+
+  .btn-toggle-view,
+  .btn-save {
+    width: auto;
+  }
 }
 
 .story-editor-error {

@@ -49,7 +49,7 @@
 .story-viewer-content {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 10px;
-  padding: 40px;
+  padding: 20px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   height: fit-content;
 }
@@ -94,7 +94,7 @@
 }
 
 .story-viewer-text {
-  font-size: 1.3em;
+  font-size: 1em;
   line-height: 1.6;
   margin-bottom: 40px;
   color: #444;
@@ -108,8 +108,8 @@
 }
 
 .story-viewer-choice {
-  padding: 15px 30px;
-  font-size: 1.1em;
+  padding: 15px 20px;
+  font-size: 1em;
   background: #667eea;
   color: white;
   border: none;

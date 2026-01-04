@@ -36,9 +36,9 @@ function Login() {
         {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Email</label>
+            <label>Email or Username</label>
             <input
-              type="email"
+              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -57,9 +57,9 @@ function Login() {
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-        <div className="auth-info">
-          <p>🔐 Admin access only</p>
-        </div>
+        <p className="auth-link">
+          Don't have an account? <Link to="/register">Register</Link>
+        </p>
       </div>
     </div>
   );

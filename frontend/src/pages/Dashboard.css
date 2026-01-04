@@ -1,136 +1,162 @@
+/* Styles de base - Mobile First */
 .dashboard {
   min-height: 100vh;
   background: #f5f5f5;
-  padding: 20px;
+  padding: 16px;
 }
 
 .dashboard-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .dashboard-header h1 {
   color: #333;
   margin: 0;
+  font-size: 1.75rem;
 }
 
 .dashboard-header-actions {
   display: flex;
-  gap: 15px;
-  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
 }
 
 .dashboard-username {
   color: #666;
   font-weight: 500;
+  font-size: 0.9rem;
 }
 
 .btn-primary,
 .btn-secondary {
-  padding: 10px 20px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
-  transition: background 0.2s;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: center;
 }
 
 .btn-primary {
   background: #667eea;
   color: white;
+  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
 }
 
 .btn-primary:hover {
   background: #5568d3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
 }
 
 .btn-secondary {
-  background: #ccc;
-  color: #333;
+  background: #f8f9fa;
+  color: #495057;
+  border: 1px solid #dee2e6;
 }
 
 .btn-secondary:hover {
-  background: #bbb;
+  background: #e9ecef;
+  transform: translateY(-1px);
 }
 
 .dashboard-error {
   background: #fee;
   color: #c33;
-  padding: 15px;
-  border-radius: 5px;
+  padding: 16px;
+  border-radius: 8px;
   margin-bottom: 20px;
+  border-left: 4px solid #e53e3e;
 }
 
 .dashboard-empty {
   text-align: center;
-  padding: 60px 20px;
+  padding: 48px 16px;
   color: #666;
 }
 
 .dashboard-empty p {
-  font-size: 1.2em;
-  margin-bottom: 20px;
+  font-size: 1.1rem;
+  margin-bottom: 24px;
+  line-height: 1.5;
 }
 
 .dashboard-stories {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
 }
 
 .story-card {
   background: white;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
 }
 
 .story-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .story-card h3 {
-  margin: 0 0 10px 0;
+  margin: 0 0 12px 0;
   color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
 .story-description {
   color: #666;
-  margin-bottom: 15px;
-  min-height: 40px;
+  margin-bottom: 16px;
+  flex: 1;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .story-meta {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  font-size: 0.9em;
+  gap: 4px;
+  font-size: 0.8rem;
   color: #999;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 
 .story-actions {
   display: flex;
-  gap: 10px;
+  gap: 6px;
   flex-wrap: wrap;
+  margin-top: auto;
 }
 
 .btn-edit,
 .btn-share,
 .btn-duplicate,
 .btn-delete {
-  padding: 8px 16px;
+  padding: 6px 8px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background 0.2s;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 0;
 }
 
 .btn-edit {
@@ -140,6 +166,7 @@
 
 .btn-edit:hover {
   background: #5568d3;
+  transform: translateY(-1px);
 }
 
 .btn-share {
@@ -149,6 +176,7 @@
 
 .btn-share:hover {
   background: #38a169;
+  transform: translateY(-1px);
 }
 
 .btn-duplicate {
@@ -158,6 +186,7 @@
 
 .btn-duplicate:hover {
   background: #dd6b20;
+  transform: translateY(-1px);
 }
 
 .btn-delete {
@@ -167,6 +196,7 @@
 
 .btn-delete:hover {
   background: #e53e3e;
+  transform: translateY(-1px);
 }
 
 .dashboard-loading {
@@ -174,7 +204,59 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5em;
+  font-size: 1.25rem;
   color: #666;
+}
+
+/* Desktop - Media Queries */
+@media (min-width: 768px) {
+  .dashboard {
+    padding: 24px;
+  }
+
+  .dashboard-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    gap: 24px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 2rem;
+  }
+
+  .dashboard-header-actions {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: auto;
+  }
+
+  .dashboard-stories {
+    gap: 20px;
+  }
+
+  .story-card {
+    padding: 24px;
+  }
+
+  .story-actions {
+    gap: 10px;
+  }
+
+  .btn-edit,
+  .btn-share,
+  .btn-duplicate,
+  .btn-delete {
+    flex: none;
+    min-width: auto;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
 }
 
