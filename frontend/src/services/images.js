@@ -13,13 +13,10 @@ export const uploadImage = async (file) => {
 };
 
 export const getImageUrl = (imageId) => {
-  const API_URL = process.env.REACT_APP_API_URL || 'https://storytelling-mi4r.onrender.com';
-  console.log('IMAGE DEBUG - API_URL:', API_URL);
-  console.log('IMAGE DEBUG - imageId:', imageId);
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
   const finalUrl = imageId.startsWith('http') ? imageId :
     imageId.startsWith('/api/images/') ? `${API_URL}${imageId}` :
     `${API_URL}/api/images/${imageId}`;
-  console.log('IMAGE DEBUG - finalUrl:', finalUrl);
 
   if (imageId.startsWith('http')) {
     return imageId;

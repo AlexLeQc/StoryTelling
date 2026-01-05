@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { getPublicStories } from '../services/stories';
 import { isAuthenticated } from '../services/auth';
+import { getImageUrl } from '../services/images';
 import './Homepage.css';
 
 function Homepage() {
@@ -41,16 +42,6 @@ function Homepage() {
     return firstPage?.background || null;
   };
 
-  const getImageUrl = (background) => {
-    if (!background) return null;
-    const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
-    if (background.startsWith('http') || background.startsWith('/api/images/')) {
-      return background.startsWith('/api/images/') 
-        ? `${API_URL}${background}` 
-        : background;
-    }
-    return `${API_URL}/api/images/${background}`;
-  };
 
   if (loading) {
     return (

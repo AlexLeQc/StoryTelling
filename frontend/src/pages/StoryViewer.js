@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getPublicStory } from '../services/stories';
+import { getImageUrl } from '../services/images';
 import './StoryViewer.css';
 
 function StoryViewer() {
@@ -54,8 +55,6 @@ function StoryViewer() {
     return <div className="story-viewer-error">Invalid story step</div>;
   }
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
-
   return (
     <div className="story-viewer">
       <div className="story-viewer-header">
@@ -66,11 +65,7 @@ function StoryViewer() {
           <div className="story-viewer-image-container">
             {imageLoading && <div className="image-loading">Loading image...</div>}
             <img
-              src={scene.background.startsWith('http') || scene.background.startsWith('/api/images/')
-                ? (scene.background.startsWith('/api/images/')
-                  ? `${API_URL}${scene.background}`
-                  : scene.background)
-                : `${API_URL}/api/images/${scene.background}`}
+              src={getImageUrl(scene.background)}
               alt="Story scene"
               className="story-viewer-image"
               onLoad={() => setImageLoading(false)}
