@@ -13,17 +13,8 @@ export const uploadImage = async (file) => {
 };
 
 export const getImageUrl = (imageId) => {
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
-  const finalUrl = imageId.startsWith('http') ? imageId :
-    imageId.startsWith('/api/images/') ? `${API_URL}${imageId}` :
-    `${API_URL}/api/images/${imageId}`;
+  const API_URL = process.env.REACT_APP_API_URL;
 
-  if (imageId.startsWith('http')) {
-    return imageId;
-  }
-  if (imageId.startsWith('/api/images/')) {
-    return `${API_URL}${imageId}`;
-  }
   return `${API_URL}/api/images/${imageId}`;
 };
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ImageUpload from './ImageUpload';
+import { getImageUrl } from '../services/images';
 import './StoryForm.css';
 
 function StoryForm({ page, pageId, onChange, onDelete, onAddChoice }) {
@@ -87,7 +88,7 @@ function StoryForm({ page, pageId, onChange, onDelete, onAddChoice }) {
         <label>Background Image</label>
         {page.background ? (
           <div className="background-preview">
-            <img src={page.background} alt="Background preview" />
+            <img src={getImageUrl(page.background)} alt="Background preview" />
             <div className="background-actions">
               <button type="button" onClick={() => setShowImageUpload(true)}>
                 Change

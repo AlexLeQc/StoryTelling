@@ -16,10 +16,7 @@ function ImageUpload({ onUpload, onCancel }) {
 
     try {
       const result = await uploadImage(file);
-      const imageUrl = result.imageUrl.startsWith('http')
-        ? result.imageUrl
-        : getImageUrl(result.imageId);
-      onUpload(imageUrl);
+      onUpload(result.imageId);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to upload image');
     } finally {
