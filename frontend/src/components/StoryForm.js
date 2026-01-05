@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import ImageUpload from './ImageUpload';
-import { getImageUrl } from '../services/images';
+import { getImageUrl, deleteImage } from '../services/images';
 import './StoryForm.css';
 
 function StoryForm({ page, pageId, onChange, onDelete, onAddChoice }) {
@@ -58,7 +58,15 @@ function StoryForm({ page, pageId, onChange, onDelete, onAddChoice }) {
     });
   };
 
-  const handleRemoveBackground = () => {
+  const handleRemoveBackground = async () => {
+    if (page.background) {
+      try {
+        await deleteImage(page.background);
+      } catch (error) {
+        console.error('Failed to delete image:', error);
+      }
+    }
+
     onChange({
       ...page,
       background: '',
