@@ -2,12 +2,15 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getStories, deleteStory, duplicateStory } from '../services/stories';
 import { logout, getUser } from '../services/auth';
+import Modal from '../components/Modal';
 import './Dashboard.css';
 
 function Dashboard() {
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [confirmDeleteModal, setConfirmDeleteModal] = useState({ isOpen: false, storyId: null });
+  const [shareSuccessModal, setShareSuccessModal] = useState(false);
   const navigate = useNavigate();
   const user = getUser();
 
@@ -34,14 +37,20 @@ function Dashboard() {
     navigate(`/editor/${id}`);
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this story?')) {
-      try {
-        await deleteStory(id);
-        fetchStories();
-      } catch (err) {
-        setError('Failed to delete story');
-      }
+  const handleView = (shareId) => {
+    navigate(`/story/${shareId}`);
+  };
+
+  const handleDelete = (id) => {
+    setConfirmDeleteModal({ isOpen: true, storyId: id });
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await deleteStory(confirmDeleteModal.storyId);
+      fetchStories();
+    } catch (err) {
+      setError('Failed to delete story');
     }
   };
 
@@ -58,7 +67,7 @@ function Dashboard() {
     const shareUrl = `${window.location.origin}/story/${shareId}`;
     try {
       await navigator.clipboard.writeText(shareUrl);
-      alert('Share link copied to clipboard!');
+      setShareSuccessModal(true);
     } catch (err) {
       const textArea = document.createElement('textarea');
       textArea.value = shareUrl;
@@ -66,7 +75,7 @@ function Dashboard() {
       textArea.select();
       document.execCommand('copy');
       document.body.removeChild(textArea);
-      alert('Share link copied to clipboard!');
+      setShareSuccessModal(true);
     }
   };
 
@@ -115,7 +124,11 @@ function Dashboard() {
       ) : (
         <div className="dashboard-stories">
           {stories.map((story) => (
-            <div key={story.shareId} className="story-card">
+            <div
+              key={story.shareId}
+              className="story-card"
+              onClick={() => handleView(story.shareId)}
+            >
               <h3>{story.title}</h3>
               <p className="story-description">{story.description || 'No description'}</p>
               <div className="story-meta">
@@ -123,16 +136,40 @@ function Dashboard() {
                 <span>Updated: {new Date(story.updatedAt).toLocaleDateString()}</span>
               </div>
               <div className="story-actions">
-                <button onClick={() => handleEdit(story._id)} className="btn-edit">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEdit(story._id);
+                  }}
+                  className="btn-edit"
+                >
                   Edit
                 </button>
-                <button onClick={() => handleShare(story.shareId)} className="btn-share">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleShare(story.shareId);
+                  }}
+                  className="btn-share"
+                >
                   Share
                 </button>
-                <button onClick={() => handleDuplicate(story._id)} className="btn-duplicate">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDuplicate(story._id);
+                  }}
+                  className="btn-duplicate"
+                >
                   Duplicate
                 </button>
-                <button onClick={() => handleDelete(story._id)} className="btn-delete">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(story._id);
+                  }}
+                  className="btn-delete"
+                >
                   Delete
                 </button>
               </div>
@@ -140,6 +177,26 @@ function Dashboard() {
           ))}
         </div>
       )}
+
+      <Modal
+        isOpen={confirmDeleteModal.isOpen}
+        onClose={() => setConfirmDeleteModal({ isOpen: false, storyId: null })}
+        title="Delete Story"
+        message="Are you sure you want to delete this story? This action cannot be undone."
+        type="confirm"
+        onConfirm={confirmDelete}
+        confirmText="Delete"
+        cancelText="Cancel"
+      />
+
+      <Modal
+        isOpen={shareSuccessModal}
+        onClose={() => setShareSuccessModal(false)}
+        title="Link Copied"
+        message="Share link has been copied to your clipboard!"
+        type="info"
+        confirmText="OK"
+      />
     </div>
   );
 }
