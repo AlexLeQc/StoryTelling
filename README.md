@@ -4,7 +4,7 @@ A web application that allows users to create, save, and share interactive stori
 
 ## Features
 
-- User authentication (Email/Password + OAuth with Google and GitHub)
+- User authentication (Email/Password)
 - Create interactive stories with multiple pages and choices
 - Upload custom background images for each page
 - Visual and JSON editing modes
