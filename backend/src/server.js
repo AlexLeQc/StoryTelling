@@ -19,6 +19,10 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
 });
 
+app.get('/ping', (req, res) => {
+  res.send('pong');
+});
+
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/stories', require('./routes/stories'));
 app.use('/api/images', require('./routes/images'));
